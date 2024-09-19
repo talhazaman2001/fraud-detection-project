@@ -83,7 +83,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "kinesis_firehose_
 
 # S3 Bucket for Training Data and Model Artifacts
 resource "aws_s3_bucket" "sagemaker_bucket" {
-    bucket = "fraud-detection-sagemaker-bucket"
+    bucket = "fraud-detection-sagemaker-bucket-talha"
 
 }
 

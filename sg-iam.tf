@@ -64,11 +64,11 @@ resource "aws_iam_role" "ecs_task_execution_role" {
     name = "ecs-task-execution-role"
 
     assume_role_policy = jsonencode({
-        Version = "2012-10-17"
+        Version = "2012-10-17",
         Statement = [{
-            Action = "sts:AssumeRole"
+            Action = "sts:AssumeRole",
             Principal = {
-                service = "ecs-tasks.amazonaws.com"
+                Service = "ecs-tasks.amazonaws.com"
             },
             Effect = "Allow",
             Sid = ""
@@ -93,7 +93,7 @@ resource "aws_iam_role" "xray_role" {
     name = "xray-task-role"
 
     assume_role_policy = jsonencode({
-        Version = "2012-10-17"
+        Version = "2012-10-17",
         Statement = [{
             Action = "sts:AssumeRole",
             Principal = {
@@ -134,6 +134,7 @@ resource "aws_iam_role_policy_attachment" "sagemaker_execution_role" {
     policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
 }
 
+
 # Security Group for SageMaker
 resource "aws_security_group" "sagemaker_sg" {
   name   = "sagemaker-security-group"
@@ -153,6 +154,7 @@ resource "aws_security_group" "sagemaker_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 
 # IAM Role for Fargate to write to Kinesis
 resource "aws_iam_role" "fargate_kinesis_role" {
@@ -185,7 +187,7 @@ resource "aws_iam_role" "firehose_delivery_role" {
         Statement = [{
             Effect = "Allow",
             Principal = {
-                Service = "ecs-tasks.amazonaws.com"
+                Service = "firehose.amazonaws.com"
             },
             Action = "sts:AssumeRole"
         }]

@@ -13,16 +13,6 @@ variable "public_subnet_cidrs" {
     default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 }
 
-# Public Subnets 
-resource "aws_subnet" "public_subnet" {
-    count = length(var.public_subnet_cidrs)
-    vpc_id = aws_vpc.main_vpc.id
-    cidr_block = element(var.public_subnet_cidrs, count.index)
-    tags = {
-        Name = "Public Subnet ${count.index + 1}"
-    }
-}
-
 # Identify the CIDR ranges for the 3 Private Subnets
 variable "private_subnet_cidrs" {
     type = list(string)
@@ -30,37 +20,33 @@ variable "private_subnet_cidrs" {
     default = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
 }
 
-# Private Subnets 
-resource "aws_subnet" "private_subnet" {
-    count = length(var.private_subnet_cidrs)
-    vpc_id = aws_vpc.main_vpc.id
-    cidr_block = element(var.private_subnet_cidrs, count.index)
-    tags = {
-        Name = "Private Subnet ${count.index + 1}"
-    }
-}
-
 # Store the list of Availability Zones
 variable "azs" {
     type = list(string)
     description = "Availability Zones"
-    default = ["eu-west-2a, eu-west-2b, eu-west-2c"]
+    default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 }
 
-# Map the Public Subnets to the Availability Zones
+# Public Subnets 
 resource "aws_subnet" "public_subnets" {
     count = length(var.public_subnet_cidrs)
     vpc_id = aws_vpc.main_vpc.id
     cidr_block = element(var.public_subnet_cidrs, count.index)
     availability_zone = element(var.azs, count.index)
+    tags = {
+        Name = "Public Subnet ${count.index + 1}"
+    }
 }
 
-# Map the Private Subnets to the Availability Zones
+# Private Subnets 
 resource "aws_subnet" "private_subnets" {
     count = length(var.private_subnet_cidrs)
     vpc_id = aws_vpc.main_vpc.id
     cidr_block = element(var.private_subnet_cidrs, count.index)
     availability_zone = element(var.azs, count.index)
+    tags = {
+        Name = "Private Subnet ${count.index + 1}"
+    }
 }
 
 # IGW for Public Subnets

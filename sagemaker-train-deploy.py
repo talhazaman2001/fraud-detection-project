@@ -35,7 +35,7 @@ xgb = sagemaker.estimator.Estimator(
     role,
     instance_count = 1,
     instace_type = "ml.m5.large",
-    output_path = f"s3://{bucket}/output",
+    output_path = f"s3://fraud-detection-sagemaker-bucket-talha/output",
     sagemaker_session=sagemaker_session
 )
 
@@ -49,8 +49,8 @@ xgb.set_hyperparameters(
 )
 
 # Prepare the data for XGBoost
-train_input = TrainingInput(s3_data=f"s3://{bucket}/train-data", content_type="csv")
-validation_input = TrainingInput(s3_data=f"s3://{bucket}/validation-data", content_type="csv")
+train_input = TrainingInput(s3_data=f"s3://fraud-detection-sagemaker-talha/train-data", content_type="csv")
+validation_input = TrainingInput(s3_data=f"s3://fraud-detection-sagemaker-talha/validation-data", content_type="csv")
 
 # Train the model
 xgb.fit({"train": train_input, "validation": validation_input})

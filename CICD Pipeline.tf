@@ -10,7 +10,7 @@ resource "aws_ecr_repository" "fraud_detection_repo"{
 # Use AWS Secrets Manager to store GitHub token
 
 resource "aws_secretsmanager_secret" "github_token" {
-  name = "github-token1"
+  name = "github-token2"
 }
 
 resource "aws_secretsmanager_secret_version" "github_token" {
@@ -40,7 +40,7 @@ resource "aws_iam_role" "codebuild_role" {
 # IAM Policy for CodeBuild to access ECR and Fargate
 resource "aws_iam_role_policy_attachment" "codebuild_policy" {
     role = aws_iam_role.codebuild_role.name
-    policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistry"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
 

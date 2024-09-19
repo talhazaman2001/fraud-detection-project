@@ -4,11 +4,13 @@ resource "aws_sagemaker_notebook_instance" "sagemaker_notebook" {
     instance_type = "ml.t2.medium"
     role_arn = aws_iam_role.sagemaker_execution_role.arn
     subnet_id = aws_subnet.private_subnets[0].id
+    security_groups = [aws_security_group.sagemaker_sg.id]
 
     tags = {
         Name = "fraud-detection-notebook"
     }
 }
+
 
 # Define the SageMaker model
 resource "aws_sagemaker_model" "fraud_detection_model" {
@@ -42,16 +44,6 @@ resource "aws_sagemaker_endpoint_configuration" "fraud_detection_config" {
     }
 }
 
-# Monitor performance of Deployed SageMaker Model
-resource "aws_sagemaker_monitoring_schedule" "monitoring_schedule" {
-    monitoring_schedule_config {
-      monitoring_job_definition_name = "fraud-detection-monitoring-job"
-      monitoring_type = "DataQuality"
-      schedule_config {
-        schedule_expression = "cron(0 * ? * * *)" # Run hourly
-      }
-    }
-}
 
 
 

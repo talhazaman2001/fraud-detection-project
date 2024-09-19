@@ -2,7 +2,7 @@
 resource "aws_rds_cluster" "aurora_cluster" {
     cluster_identifier = "fraud-detection-cluster"
     engine = "aurora-mysql"
-    engine_version = "8.0.mysql_aurora.3.05.2.0"
+    engine_version = "8.0.32mysql_aurora.3.05.2"
     master_username = "admin"
     master_password = "password"
     backup_retention_period = 7

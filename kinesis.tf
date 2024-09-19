@@ -12,7 +12,7 @@ resource "aws_kinesis_stream" "fraud_detection_stream" {
 
 # Kinesis Firehose Delivery Stream to S3
 resource "aws_kinesis_firehose_delivery_stream" "fraud_detection_firehose" {
-    name = "fraud-detection-firehouse"
+    name = "fraud-detection-firehose-talha"
     destination = "extended_s3"
 
     extended_s3_configuration {
