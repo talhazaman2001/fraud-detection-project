@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  pre-build:
+  commands:
+    - echo Logging in to Amazon ECR...
+    - aws ecr get-login-passwrod --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+    - echo Cloning the repository from GitHub...
+    - git clone https://github.com/talhazaman2001/fraud-detection-project.git
+    - echo Repository cloned successfully
+    - REPOSITORY_URI=$(aws ecr describe-repositories --repository-names fraud-detection-app --query 'repositories[0]repositoryUri' --output text)
+  
+  build: 
+    commands:
+      - echo Build starting on 'date'
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+
+  post_build:
+    commands:
+      - echo Build completed on 'date'
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - echo Writing image definition file...
+      - printf '[{"name:"fraud-detection", "imageUri:"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+
+  artifacts:
+    files:
+      - imagedefinitions.json
