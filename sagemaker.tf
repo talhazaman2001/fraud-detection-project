@@ -17,8 +17,8 @@ resource "aws_sagemaker_model" "fraud_detection_model" {
   name                  = "fraud-detection-model"
   execution_role_arn    = aws_iam_role.sagemaker_execution_role.arn
   primary_container {
-    image               = "685385470294.dkr.ecr.eu-west-2.amazonaws.com/xgboost:latest"
-    model_data_url      = "s3://my-bucket/model.tar.gz"
+    image               = "764974769150.dkr.ecr.eu-west-2.amazonaws.com/sagemaker-xgboost:1.7-1"
+    model_data_url      = "s3://fraud-detection-sagemaker-bucket-talha/train-data/model.tar.gz"
   }
 
   tags = {
@@ -43,7 +43,4 @@ resource "aws_sagemaker_endpoint_configuration" "fraud_detection_config" {
       instance_type = "ml.m5.large"
     }
 }
-
-
-
 

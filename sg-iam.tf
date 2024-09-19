@@ -134,6 +134,48 @@ resource "aws_iam_role_policy_attachment" "sagemaker_execution_role" {
     policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
 }
 
+resource "aws_iam_policy" "sagemaker_policy" {
+  name = "SageMakerAccessPolicy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      # Permissions to access S3
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket",
+          "s3:GetBucketLocation"
+        ],
+        Resource = [
+          "arn:aws:s3:::fraud-detection-sagemaker-bucket-talha",
+          "arn:aws:s3:::fraud-detection-sagemaker-bucket-talha/*"
+        ]
+      },
+      # Permissions to access ECR
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ],
+        Resource = "arn:aws:ecr:eu-west-2:764974769150:repository/sagemaker-xgboost"
+      },
+      # Permission to retrieve ECR authorization token
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 
 # Security Group for SageMaker
 resource "aws_security_group" "sagemaker_sg" {

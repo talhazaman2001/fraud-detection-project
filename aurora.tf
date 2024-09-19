@@ -1,13 +1,15 @@
 # Aurora MySQL Cluster
 resource "aws_rds_cluster" "aurora_cluster" {
-    cluster_identifier = "fraud-detection-cluster"
+    cluster_identifier = "fraud-detection-cluster-talha"
     engine = "aurora-mysql"
-    engine_version = "8.0.32mysql_aurora.3.05.2"
+    engine_version = "8.0.mysql_aurora.3.05.2"
     master_username = "admin"
     master_password = "password"
+    skip_final_snapshot = false 
+    final_snapshot_identifier = "my-final-snapshot"
     backup_retention_period = 7
     preferred_backup_window = "07:00-09:00"
-    database_name = "fraud-detection"
+    database_name = "frauddetection"
     storage_encrypted = true
     apply_immediately = true
 

@@ -104,7 +104,7 @@ resource "aws_codestarconnections_connection" "github_connection" {
 
 # S3 Bucket to store CodePipeline Artifacts
 resource "aws_s3_bucket" "pipeline_artifacts" {
-  bucket = "fraud-detection-pipeline-artifacts"
+  bucket = "fraud-detection-pipeline-artifacts-talha"
 }
 
 # Enable Versioning

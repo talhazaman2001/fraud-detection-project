@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
   container_definitions = jsonencode([
     {
       name      = "fraud-detection",
-      image     = "your-docker-image",
+      image     = "463470963000.dkr.ecr.eu-west-2.amazonaws.com/fraud-detection-app",
       essential = true,
       portMappings = [{
         containerPort = 8080,
@@ -74,7 +74,19 @@ resource "aws_ecs_task_definition" "ecs_task" {
   ])
 }
 
-# Load Balancer for ECS
+# Create a Listener for the ALB
+resource "aws_lb_listener" "ecs_alb_listener" {
+  load_balancer_arn = aws_lb.ecs_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_target_group.arn
+  }
+}
+
+# Define the Target Group
 resource "aws_lb_target_group" "ecs_target_group" {
   name        = "ecs-target-group"
   port        = 80                

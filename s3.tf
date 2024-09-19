@@ -148,5 +148,5 @@ resource "aws_s3_bucket_lifecycle_configuration" "fraud_detection_sagemaker_conf
 resource "aws_s3_object" "training_code" {
   bucket = aws_s3_bucket.sagemaker_bucket.bucket
   key = "train-data/sagemaker-train-deploy.py"
-  source = "${path.module}/sagemaker-train-deploy.py"
+  source = "${path.module}/mock-financial-transactions.csv"
 }

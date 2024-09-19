@@ -100,10 +100,9 @@ resource "aws_route_table_association" "private_rt-assoc" {
 
 # Add Route to Private Route Table
 resource "aws_route" "private_route" {
-    count = 3
     route_table_id = aws_route_table.private_rt.id
     destination_cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gateway[count.index].id
+    nat_gateway_id = aws_nat_gateway.nat_gateway[0].id
 }
 
 # Application Load Balancer in Public Subnets
