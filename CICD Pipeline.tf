@@ -15,7 +15,7 @@ resource "aws_secretsmanager_secret" "github_token" {
 
 resource "aws_secretsmanager_secret_version" "github_token" {
   secret_id     = aws_secretsmanager_secret.github_token.id
-  secret_string = "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"
+  secret_string = "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943"
 }
 
 
