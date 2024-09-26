@@ -182,7 +182,7 @@ resource "aws_codepipeline" "fraud_detection_pipeline" {
       category        = "Deploy"
       owner           = "AWS"
       provider        = "ECS"
-      version         = "2"
+      version         = "1"
       input_artifacts = ["build_output"]
 
       configuration = {
